@@ -1,0 +1,65 @@
+package main
+
+import (
+	"Dreamstride/commands"
+	_ "Dreamstride/utils"
+	"github.com/bwmarrin/discordgo"
+	"log"
+	"os"
+	"os/signal"
+)
+
+var (
+	TOKEN string
+)
+
+func getVar() {
+	TOKEN = os.Getenv("DISCORD_TOKEN")
+	if TOKEN == "" {
+		log.Fatal("No token found")
+	}
+}
+
+func main() {
+	getVar()
+	discord, err := discordgo.New("Bot " + TOKEN)
+	if err != nil {
+		log.Fatal("Error while creation the session ", err)
+	}
+	discord.Identify.Presence = discordgo.GatewayStatusUpdate{
+		Game: discordgo.Activity{
+			Name: "Dreamstride",
+			Type: discordgo.ActivityTypeWatching,
+		},
+	}
+	err = discord.Open()
+	if err != nil {
+		log.Fatal("Error while opening the session ", err)
+	}
+	commandHandlers := commands.GetCommandHandlers()
+	discord.AddHandler(func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+		if handler, ok := commandHandlers[i.ApplicationCommandData().Name]; ok {
+			handler(s, i)
+		}
+
+	})
+
+	appCommands := commands.GetCommands()
+	_, err = discord.ApplicationCommandBulkOverwrite(discord.State.User.ID, discord.State.Guilds[0].ID, appCommands)
+	if err != nil {
+		log.Panicf("Error overwriting commands: %v", err)
+	}
+	defer func(discord *discordgo.Session) {
+		err := discord.Close()
+		if err != nil {
+			log.Fatal("Error while closing the session ", err)
+		}
+	}(discord)
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+	log.Println("Press CTRL+C to exit")
+	<-stop
+
+	log.Println("Bot is closing...")
+}
