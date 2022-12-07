@@ -95,6 +95,8 @@ var (
 					Required:    false,
 				},
 			},
+			DefaultMemberPermissions: &defaultMemberPermissions,
+			DMPermission:             &dmPermissions,
 		},
 		{
 			Name:        "mute",
