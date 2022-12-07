@@ -3,7 +3,7 @@ package commands
 import "github.com/bwmarrin/discordgo"
 
 var (
-	defaultMemberPermissions int64 = discordgo.PermissionManageServer
+	defaultMemberPermissions int64 = discordgo.PermissionAdministrator
 	dmPermissions                  = false
 	commands                       = []*discordgo.ApplicationCommand{
 		{
@@ -95,6 +95,8 @@ var (
 					Required:    false,
 				},
 			},
+			DefaultMemberPermissions: &defaultMemberPermissions,
+			DMPermission:             &dmPermissions,
 		},
 		{
 			Name:        "mute",

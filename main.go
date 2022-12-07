@@ -61,5 +61,14 @@ func main() {
 	log.Println("Press CTRL+C to exit")
 	<-stop
 
-	log.Println("Bot is closing...")
+	if true {
+		log.Println("Removing commands...")
+		_, err := discord.ApplicationCommandBulkOverwrite(discord.State.User.ID, "955192188332023819", nil)
+		if err != nil {
+			log.Panicf("Cannot delete a command: %v", err)
+		}
+		log.Println("Removed commands")
+	}
+	log.Println("Gracefully shutting down.")
+
 }
