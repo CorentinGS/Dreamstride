@@ -3,9 +3,19 @@ package commands
 import "github.com/bwmarrin/discordgo"
 
 var (
-	defaultMemberPermissions int64 = discordgo.PermissionAdministrator
-	dmPermissions                  = false
-	commands                       = []*discordgo.ApplicationCommand{
+	defaultAdminPermissions int64 = discordgo.PermissionAdministrator
+	/* defaultUserPermissions  int64 =  discordgo.PermissionSendMessages |
+	discordgo.PermissionReadMessageHistory |
+	discordgo.PermissionAddReactions |
+	discordgo.PermissionEmbedLinks |
+	discordgo.PermissionAttachFiles |
+	discordgo.PermissionReadMessages |
+	discordgo.PermissionUseExternalEmojis |
+	discordgo.PermissionUseSlashCommands
+	*/
+	defaultModPermissions int64 = discordgo.PermissionManageMessages
+	dmPermissions               = false
+	commands                    = []*discordgo.ApplicationCommand{
 		{
 			Name:        "get-version",
 			Description: "Returns the version of the bot",
@@ -35,7 +45,7 @@ var (
 					Required:    true,
 				},
 			},
-			DefaultMemberPermissions: &defaultMemberPermissions,
+			DefaultMemberPermissions: &defaultAdminPermissions,
 			DMPermission:             &dmPermissions,
 		},
 		{
@@ -55,7 +65,7 @@ var (
 					Required:    true,
 				},
 			},
-			DefaultMemberPermissions: &defaultMemberPermissions,
+			DefaultMemberPermissions: &defaultAdminPermissions,
 			DMPermission:             &dmPermissions,
 		},
 		{
@@ -75,7 +85,7 @@ var (
 					Required:    false,
 				},
 			},
-			DefaultMemberPermissions: &defaultMemberPermissions,
+			DefaultMemberPermissions: &defaultAdminPermissions,
 			DMPermission:             &dmPermissions,
 		},
 		{
@@ -95,7 +105,7 @@ var (
 					Required:    false,
 				},
 			},
-			DefaultMemberPermissions: &defaultMemberPermissions,
+			DefaultMemberPermissions: &defaultModPermissions,
 			DMPermission:             &dmPermissions,
 		},
 		{
@@ -115,7 +125,7 @@ var (
 					Required:    true,
 				},
 			},
-			DefaultMemberPermissions: &defaultMemberPermissions,
+			DefaultMemberPermissions: &defaultAdminPermissions,
 			DMPermission:             &dmPermissions,
 		},
 	}

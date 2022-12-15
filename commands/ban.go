@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"Dreamstride/utils"
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -10,8 +12,9 @@ func BanCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		userID := i.ApplicationCommandData().Options[0].UserValue(s).ID
 		reason := i.ApplicationCommandData().Options[1].StringValue()
 
+		fmt.Println(userID)
 		if reason == "" {
-			err := s.GuildBanCreate(i.GuildID, userID, 0)
+			err := s.GuildBanCreate(utils.SERVER_ID, userID, 0)
 			if err != nil {
 				_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 					Type: discordgo.InteractionResponseChannelMessageWithSource,
