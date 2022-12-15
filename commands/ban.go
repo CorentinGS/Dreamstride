@@ -16,6 +16,7 @@ func BanCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			reason = ""
 		}
 
+		fmt.Println(userID)
 		if reason == "" {
 			err := s.GuildBanCreate(utils.SERVER_ID, userID, 0)
 			if err != nil {
