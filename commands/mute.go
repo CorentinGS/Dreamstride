@@ -1,66 +1,44 @@
 package commands
 
 import (
+	"Dreamstride/utils"
+	"fmt"
 	"github.com/bwmarrin/discordgo"
-	"io"
-	"log"
-	"net/http"
-	"os"
 	"strconv"
 	"time"
 )
 
-func timeoutUser(u string, guildId string, until int64) bool {
-	//prepare http request
-	request := "https://discord.com/api/guilds/" + guildId + "/members/" + u
-	req, err := http.NewRequest("PUT", request, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+func timeoutUser(s *discordgo.Session, userID string, until time.Duration) bool {
+	// Initialise une session HTTP
 
-	//set headers
-	token := os.Getenv("DISCORD_TOKEN")
-	req.Header.Set("Authorization", "Bot "+token)
-	//convert until to iso format
-	timeout := time.Unix(int64(until), 0).Format(time.RFC3339)
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("communication_disabled_until", timeout)
-	//send the request
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		panic(err)
-	}
-	if resp.StatusCode == 200 || resp.StatusCode < 299 {
-		defer func(Body io.ReadCloser) {
-			err := Body.Close()
-			if err != nil {
-				log.Panic(err)
-			}
-		}(resp.Body)
-		return true
-	}
+	url := "https://discord.com/api/v9/guilds/" + utils.SERVER_ID + "/members/" + userID
+	timeout := time.Now().Add(until)
 
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			log.Panic(err)
-		}
-	}(resp.Body)
+	json := map[string]string{
+		"communication_disabled_until": timeout.Format(time.RFC3339),
+	}
+	resp, err := s.RequestWithBucketID("PATCH", url, json,
+		discordgo.EndpointGuildMember(utils.SERVER_ID, userID))
+	if err != nil {
+		return false
+	}
+	var tmp string
+	err = discordgo.Unmarshal(resp, &tmp)
+
+	fmt.Printf("%s\n", tmp)
 	return false
-
 }
+
 func MuteCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		//get the user to mute
 		user := i.ApplicationCommandData().Options[0].UserValue(s).ID
 		//get the guild id
-		guildId := i.GuildID
 		//get the time to mute for
 		times, _ := strconv.Atoi(i.ApplicationCommandData().Options[1].StringValue())
 
 		//mute the user
-		if timeoutUser(user, guildId, int64(times)) {
+		if timeoutUser(s, user, time.Duration(times)*time.Minute) {
 			_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
