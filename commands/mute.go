@@ -2,7 +2,6 @@ package commands
 
 import (
 	"Dreamstride/utils"
-	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"strconv"
 	"time"
@@ -22,10 +21,11 @@ func timeoutUser(s *discordgo.Session, userID string, until time.Duration) bool 
 	if err != nil {
 		return false
 	}
-	var tmp string
-	err = discordgo.Unmarshal(resp, &tmp)
-
-	fmt.Printf("%s\n", tmp)
+	var st []*discordgo.Message
+	err = discordgo.Unmarshal(resp, &st)
+	for _, v := range st {
+		println(v.Content)
+	}
 	return false
 }
 
