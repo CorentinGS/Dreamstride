@@ -16,25 +16,18 @@ func timeoutUser(s *discordgo.Session, userID string, until time.Duration) bool 
 	json := map[string]string{
 		"communication_disabled_until": timeout.Format(time.RFC3339),
 	}
-	resp, err := s.RequestWithBucketID("PATCH", url, json,
+
+	_, err := s.RequestWithBucketID("PATCH", url, json,
 		discordgo.EndpointGuildMember(utils.SERVER_ID, userID))
 	if err != nil {
 		return false
 	}
-	var st []*discordgo.Message
-	err = discordgo.Unmarshal(resp, &st)
-	for _, v := range st {
-		println(v.Content)
-	}
-	return false
+	return true
 }
 
 func MuteCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-		//get the user to mute
 		user := i.ApplicationCommandData().Options[0].UserValue(s).ID
-		//get the guild id
-		//get the time to mute for
 		times, _ := strconv.Atoi(i.ApplicationCommandData().Options[1].StringValue())
 
 		//mute the user
@@ -42,7 +35,7 @@ func MuteCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
-					Content: "User has been muted",
+					Content: "User has been muted for " + string(rune(times)) + " minutes",
 				},
 			})
 		} else {
