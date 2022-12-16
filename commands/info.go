@@ -9,14 +9,23 @@ func InfoCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
-				Content: "/info -> Returns bot commands\n" +
-					"/ping -> Returns the latency of the bot\n" +
-					"/get-version -> Returns the version of the bot\n" +
-					"/addrole arg user -> Adds a role to a user\n" +
-					"/rmerole arg user -> Removes a role from a user\n" +
-					"/ban user -> Bans a user\n" +
-					"/purge arg -> Deletes a number of messages\n" +
-					"/mute user time -> Mutes a user for a certain amount of time\n",
+				Embeds: []*discordgo.MessageEmbed{
+					{
+						Title: "Info",
+						Description: "/info - Shows this message\n" +
+							"/ping - Shows the latency of the bot\n" +
+							"/version - Shows the current version of the bot\n" +
+							"/ban - Bans a user\n" +
+							"/mute - Mutes a user for x minutes\n" +
+							"/purge - Deletes a number of messages\n" +
+							"/addrole - Adds a role to a user\n" +
+							"/rmerole - Removes a role from a user\n",
+						Author: &discordgo.MessageEmbedAuthor{
+							Name:    s.State.User.Username,
+							IconURL: s.State.User.AvatarURL(""),
+						},
+					},
+				},
 			},
 		})
 	}
