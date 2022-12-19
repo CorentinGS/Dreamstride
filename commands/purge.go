@@ -48,9 +48,9 @@ func PurgeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		var optionalUser *discordgo.User
 		if len(i.ApplicationCommandData().Options) > 1 {
 			optionalUser = i.ApplicationCommandData().Options[1].UserValue(s)
-			utils.Log(i.User.Username, i.User.ID, "purged messages from", optionalUser.Username, optionalUser.ID)
+			utils.Log(i.Member.Nick, i.Member.User.ID, "purged messages from", optionalUser.Username, optionalUser.ID)
 		} else {
-			utils.Log(i.User.Username, i.User.ID, "purged messages")
+			utils.Log(i.Member.Nick, i.Member.User.ID, "purged messages")
 		}
 		messages, _ := s.ChannelMessages(i.ChannelID, int(numMessage), "", "", "")
 
