@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -28,5 +29,6 @@ func InfoCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				},
 			},
 		})
+		utils.Log(i.Member.User.Username, i.Member.User.ID, "Info command called")
 	}
 }

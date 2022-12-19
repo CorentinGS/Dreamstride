@@ -26,7 +26,7 @@ func MuteCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		user := i.ApplicationCommandData().Options[0].UserValue(s).ID
 		userName := i.ApplicationCommandData().Options[0].UserValue(s).Username
 		times, _ := strconv.Atoi(i.ApplicationCommandData().Options[1].StringValue())
-
+		utils.Log(i.Member.User.Username, i.Member.User.ID, "Mute command called to mute "+userName+" for "+strconv.Itoa(times)+" minutes")
 		if timeoutUser(s, user, time.Duration(times)*time.Minute) {
 			_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,

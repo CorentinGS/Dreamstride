@@ -23,5 +23,6 @@ func VersionCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate)
 				},
 			},
 		})
+		utils.Log(i.Member.User.Username, i.Member.User.ID, "Version command called")
 	}
 }

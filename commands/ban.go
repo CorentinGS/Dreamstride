@@ -39,6 +39,7 @@ func BanCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				return
 			}
 		}
+		utils.Log(i.Member.User.Username, i.Member.User.ID, "Banned user "+userID+" for reason: "+reason)
 		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
