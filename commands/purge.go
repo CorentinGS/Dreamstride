@@ -67,7 +67,7 @@ func PurgeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				} else {
 					_ = s.ChannelMessageDelete(i.ChannelID, messageID)
 				}
-				time.Sleep(time.Millisecond * 200)
+				time.Sleep(time.Millisecond * 500)
 			}(message.ID)
 		}
 
