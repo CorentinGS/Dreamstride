@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const rateLimit = 2 // rate limit of 2 requests per second
+const rateLimit = 1 // rate limit of 2 requests per second
 
 type rateLimiter struct {
 	tokens int
@@ -67,6 +67,7 @@ func PurgeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				} else {
 					_ = s.ChannelMessageDelete(i.ChannelID, messageID)
 				}
+				time.Sleep(time.Millisecond * 200)
 			}(message.ID)
 		}
 
