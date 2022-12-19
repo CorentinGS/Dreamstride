@@ -58,6 +58,9 @@ func main() {
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt)
+	log.Println("Connected as ", discord.State.User.Username)
+	log.Println("----------------------")
+	log.Println("Starting logs")
 	log.Println("Press CTRL+C to exit")
 	<-stop
 
