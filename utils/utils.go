@@ -16,9 +16,11 @@ func CheckIfTicketExists(s *discordgo.Session, id string) bool {
 	channels := GetChannels(s)
 	for _, channel := range channels {
 		if channel.Name == id {
+			log.Println("Ticket already exists")
 			return true
 		}
 	}
+	log.Println("Ticket does not exist")
 	return false
 }
 
