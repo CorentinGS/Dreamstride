@@ -20,6 +20,32 @@ func getVar() {
 	}
 }
 
+func sendSupportEmbed(s *discordgo.Session) {
+	const supportChannel = "986013751276884038"
+	embed := &discordgo.MessageEmbed{
+		Title:       "Support",
+		Description: "If you need help with the bot, or have any questions, react to this message with 📩 to open a ticket.",
+		Color:       0x00ff00,
+	}
+	msg, err := s.ChannelMessageSendEmbed(supportChannel, embed)
+	if err != nil {
+		log.Println("Error while sending embed ", err)
+	}
+
+	err = s.MessageReactionAdd(supportChannel, msg.ID, "📩")
+	if err != nil {
+		log.Println("Error while adding reaction ", err)
+	}
+	s.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
+		if r.MessageID == msg.ID && r.Emoji.Name == "📩" {
+			st, err := s.UserChannelCreate(r.UserID)
+			if err != nil {
+				log.Println("Error while creating channel ", err)
+			}
+			_, err = s.ChannelMessageSend(st.ID, "test msg, do not mind it")
+		}
+	})
+}
 func main() {
 	getVar()
 	discord, err := discordgo.New("Bot " + TOKEN)
@@ -43,7 +69,7 @@ func main() {
 		}
 
 	})
-
+	sendSupportEmbed(discord)
 	appCommands := commands.GetCommands()
 	_, err = discord.ApplicationCommandBulkOverwrite(discord.State.User.ID, discord.State.Guilds[0].ID, appCommands)
 	if err != nil {
