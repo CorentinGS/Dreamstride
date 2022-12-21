@@ -65,11 +65,7 @@ func main() {
 	discord.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		if r.Emoji.Name == "📩" && r.Member.User.ID != s.State.User.ID && r.MessageID == supportID {
 			log.Println("test test test")
-			channel, err := s.UserChannelCreate(r.Member.User.ID)
-			if err != nil {
-				log.Println("Error while creating channel ", err)
-			}
-			_, err = s.ChannelMessageSend(channel.ID, "Test msg please ignore")
+			_, _ = s.ChannelMessageSend(r.ChannelID, "test work pls")
 		}
 	})
 	appCommands := commands.GetCommands()
