@@ -14,7 +14,7 @@ var (
 	TOKEN string
 )
 
-const supportChannel = "986013751276884038"
+const supportID = "1055259004726685807" //"986013751276884038" original testiing id
 
 func getVar() {
 	TOKEN = os.Getenv("DISCORD_TOKEN")
@@ -23,6 +23,7 @@ func getVar() {
 	}
 }
 
+/*
 func sendSupportEmbed(s *discordgo.Session) string {
 	embed := &discordgo.MessageEmbed{
 		Title:       "Support",
@@ -39,7 +40,7 @@ func sendSupportEmbed(s *discordgo.Session) string {
 		log.Println("Error while adding reaction ", err)
 	}
 	return msg.ID
-}
+}*/
 func main() {
 	getVar()
 	discord, err := discordgo.New("Bot " + TOKEN)
@@ -63,39 +64,46 @@ func main() {
 		}
 
 	})
-	supportID := sendSupportEmbed(discord)
+	//supportID := sendSupportEmbed(discord)
 
 	discord.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		if r.Emoji.Name == "📩" && r.Member.User.ID != s.State.User.ID && r.MessageID == supportID {
-			st, err := s.GuildChannelCreateComplex(utils.SERVER_ID, discordgo.GuildChannelCreateData{
-				Name:     "ticket-" + r.Member.User.Username,
-				Type:     discordgo.ChannelTypeGuildText,
-				ParentID: "995814576794914897",
-				PermissionOverwrites: []*discordgo.PermissionOverwrite{
-					{
-						ID:   "988183933768327238",
-						Type: discordgo.PermissionOverwriteTypeRole,
-						Deny: discordgo.PermissionViewChannel,
-					},
-					{
-						ID:    "955192188764045400",
-						Type:  discordgo.PermissionOverwriteTypeRole,
-						Allow: discordgo.PermissionViewChannel | discordgo.PermissionSendMessages | discordgo.PermissionReadMessageHistory | discordgo.PermissionManageChannels,
-					},
+			checkIfTicketExists := utils.CheckIfTicketExists(s, "ticket-"+r.Member.User.Username)
+			if checkIfTicketExists {
+				channel, _ := s.UserChannelCreate(r.UserID)
+				_, _ = s.ChannelMessageSend(channel.ID, "You already have a ticket open!")
 
-					{
-						ID:    r.Member.User.ID,
-						Type:  discordgo.PermissionOverwriteTypeMember,
-						Allow: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel | discordgo.PermissionReadMessageHistory,
+			} else {
+				st, err := s.GuildChannelCreateComplex(utils.SERVER_ID, discordgo.GuildChannelCreateData{
+					Name:     "ticket-" + r.Member.User.Username,
+					Type:     discordgo.ChannelTypeGuildText,
+					ParentID: "1055265595697930290", // Support category ID
+					PermissionOverwrites: []*discordgo.PermissionOverwrite{
+						{
+							ID:   "988183933768327238",
+							Type: discordgo.PermissionOverwriteTypeRole,
+							Deny: discordgo.PermissionViewChannel,
+						},
+						{
+							ID:    "955192188764045400",
+							Type:  discordgo.PermissionOverwriteTypeRole,
+							Allow: discordgo.PermissionViewChannel | discordgo.PermissionSendMessages | discordgo.PermissionReadMessageHistory | discordgo.PermissionManageChannels,
+						},
+
+						{
+							ID:    r.Member.User.ID,
+							Type:  discordgo.PermissionOverwriteTypeMember,
+							Allow: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel | discordgo.PermissionReadMessageHistory,
+						},
 					},
-				},
-			})
-			if err != nil {
-				log.Println("Error while creating channel ", err)
+				})
+				if err != nil {
+					log.Println("Error while creating channel ", err)
+				}
+				_, _ = s.ChannelMessageSend(st.ID, "Welcome to your ticket, <@"+r.Member.User.ID+">. Please describe your issue here. A staff member will be with you shortly.")
+				channel, _ := s.UserChannelCreate(r.UserID)
+				_, _ = s.ChannelMessageSend(channel.ID, "Your ticket has been created. Look for the channel in the server.")
 			}
-			_, _ = s.ChannelMessageSend(st.ID, "Welcome to your ticket, <@"+r.Member.User.ID+">. Please describe your issue here. A staff member will be with you shortly.")
-			channel, _ := s.UserChannelCreate(r.UserID)
-			_, _ = s.ChannelMessageSend(channel.ID, "Your ticket has been created. Look for the channel in the server.")
 		}
 	})
 	appCommands := commands.GetCommands()
