@@ -73,9 +73,9 @@ func main() {
 				ParentID: "995814576794914897",
 				PermissionOverwrites: []*discordgo.PermissionOverwrite{
 					{
-						ID:   "0",
+						ID:   "988183933768327238",
 						Type: discordgo.PermissionOverwriteTypeRole,
-						Deny: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel,
+						Deny: discordgo.PermissionViewChannel,
 					},
 					{
 						ID:    r.Member.User.ID,
