@@ -13,6 +13,8 @@ var (
 	TOKEN string
 )
 
+const supportChannel = "986013751276884038"
+
 func getVar() {
 	TOKEN = os.Getenv("DISCORD_TOKEN")
 	if TOKEN == "" {
@@ -21,7 +23,6 @@ func getVar() {
 }
 
 func sendSupportEmbed(s *discordgo.Session) string {
-	const supportChannel = "986013751276884038"
 	embed := &discordgo.MessageEmbed{
 		Title:       "Support",
 		Description: "If you need help with the bot, or have any questions, react to this message with 📩 to open a ticket.",
@@ -62,11 +63,30 @@ func main() {
 
 	})
 	supportID := sendSupportEmbed(discord)
+
 	discord.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		if r.Emoji.Name == "📩" && r.Member.User.ID != s.State.User.ID && r.MessageID == supportID {
-			log.Println("test test test")
+			// Create a new ticket channel
+			st, _ := s.GuildChannelCreateComplex(r.GuildID, discordgo.GuildChannelCreateData{
+				Name:     "ticket-" + r.Member.User.Username,
+				Type:     discordgo.ChannelTypeGuildText,
+				ParentID: supportChannel,
+				PermissionOverwrites: []*discordgo.PermissionOverwrite{
+					{
+						ID:   r.GuildID,
+						Type: discordgo.PermissionOverwriteTypeRole,
+						Deny: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel,
+					},
+					{
+						ID:    r.Member.User.ID,
+						Type:  discordgo.PermissionOverwriteTypeMember,
+						Allow: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel,
+					},
+				},
+			})
+			_, _ = s.ChannelMessageSend(st.ID, "Welcome to your ticket, <@"+r.Member.User.ID+">. Please describe your issue here. A staff member will be with you shortly.")
 			channel, _ := s.UserChannelCreate(r.UserID)
-			_, _ = s.ChannelMessageSend(channel.ID, "test")
+			_, _ = s.ChannelMessageSend(channel.ID, "Your ticket has been created.Look for the channel in the server.")
 		}
 	})
 	appCommands := commands.GetCommands()
