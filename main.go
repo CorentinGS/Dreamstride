@@ -78,6 +78,12 @@ func main() {
 						Deny: discordgo.PermissionViewChannel,
 					},
 					{
+						ID:    "955192188764045400",
+						Type:  discordgo.PermissionOverwriteTypeRole,
+						Allow: discordgo.PermissionViewChannel | discordgo.PermissionSendMessages | discordgo.PermissionReadMessageHistory | discordgo.PermissionManageChannels,
+					},
+
+					{
 						ID:    r.Member.User.ID,
 						Type:  discordgo.PermissionOverwriteTypeMember,
 						Allow: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel | discordgo.PermissionReadMessageHistory,
