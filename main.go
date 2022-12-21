@@ -38,7 +38,7 @@ func sendSupportEmbed(s *discordgo.Session) {
 	}
 	s.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		if r.MessageID == msg.ID && r.Emoji.Name == "📩" {
-			st, err := s.UserChannelCreate(r.MessageID)
+			st, err := s.UserChannelCreate(r.Member.User.ID)
 			if err != nil {
 				log.Println("Error while creating channel ", err)
 			}
