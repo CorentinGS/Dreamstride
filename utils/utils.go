@@ -4,6 +4,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"log"
 	"runtime"
+	"strings"
 )
 
 func Log(caller string, id string, messages ...string) {
@@ -14,6 +15,7 @@ func Log(caller string, id string, messages ...string) {
 
 func CheckIfTicketExists(s *discordgo.Session, id string) bool {
 	channels := GetChannels(s)
+	id = strings.ToLower(id)
 	for _, channel := range channels {
 		if channel.Name == id {
 			log.Println("Ticket already exists" + id + " " + channel.Name)
