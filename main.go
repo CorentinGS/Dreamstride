@@ -73,9 +73,14 @@ func main() {
 				ParentID: "995814576794914897",
 				PermissionOverwrites: []*discordgo.PermissionOverwrite{
 					{
+						ID:   "0",
+						Type: discordgo.PermissionOverwriteTypeRole,
+						Deny: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel,
+					},
+					{
 						ID:    r.Member.User.ID,
 						Type:  discordgo.PermissionOverwriteTypeMember,
-						Allow: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel,
+						Allow: discordgo.PermissionSendMessages | discordgo.PermissionViewChannel | discordgo.PermissionReadMessageHistory,
 					},
 				},
 			})
@@ -84,7 +89,7 @@ func main() {
 			}
 			_, _ = s.ChannelMessageSend(st.ID, "Welcome to your ticket, <@"+r.Member.User.ID+">. Please describe your issue here. A staff member will be with you shortly.")
 			channel, _ := s.UserChannelCreate(r.UserID)
-			_, _ = s.ChannelMessageSend(channel.ID, "Your ticket has been created.Look for the channel in the server.")
+			_, _ = s.ChannelMessageSend(channel.ID, "Your ticket has been created. Look for the channel in the server.")
 		}
 	})
 	appCommands := commands.GetCommands()
