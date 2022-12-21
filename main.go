@@ -65,7 +65,7 @@ func main() {
 	discord.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		if r.Emoji.Name == "📩" && r.Member.User.ID != s.State.User.ID && r.MessageID == supportID {
 			log.Println("test test test")
-			_, _ = s.ChannelMessageSend(r.ChannelID, "test work pls")
+			_, _ = s.ChannelMessageSend(r.Member.User.ID, "test work pls")
 		}
 	})
 	appCommands := commands.GetCommands()
