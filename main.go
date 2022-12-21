@@ -69,7 +69,7 @@ func main() {
 	discord.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		if r.Emoji.Name == "📩" && r.Member.User.ID != s.State.User.ID && r.MessageID == supportID {
 			checkIfTicketExists := utils.CheckIfTicketExists(s, "ticket-"+r.Member.User.Username)
-			if checkIfTicketExists {
+			if !checkIfTicketExists {
 				channel, _ := s.UserChannelCreate(r.UserID)
 				_, _ = s.ChannelMessageSend(channel.ID, "You already have a ticket open!")
 
