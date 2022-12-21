@@ -70,7 +70,7 @@ func main() {
 			st, err := s.GuildChannelCreateComplex(utils.SERVER_ID, discordgo.GuildChannelCreateData{
 				Name:     "ticket-" + r.Member.User.Username,
 				Type:     discordgo.ChannelTypeGuildText,
-				ParentID: supportChannel,
+				ParentID: "995814576794914897",
 				PermissionOverwrites: []*discordgo.PermissionOverwrite{
 					{
 						ID:    r.Member.User.ID,
