@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 )
 
 var (
@@ -74,8 +75,9 @@ func main() {
 				_, _ = s.ChannelMessageSend(channel.ID, "You already have a ticket open!")
 
 			} else {
+				name := strings.ToLower("ticket-" + r.Member.User.Username)
 				st, err := s.GuildChannelCreateComplex(utils.SERVER_ID, discordgo.GuildChannelCreateData{
-					Name:     "ticket-" + r.Member.User.Username,
+					Name:     name,
 					Type:     discordgo.ChannelTypeGuildText,
 					ParentID: "1055265595697930290", // Support category ID
 					PermissionOverwrites: []*discordgo.PermissionOverwrite{
