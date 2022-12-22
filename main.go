@@ -123,8 +123,8 @@ func main() {
 		}
 	})
 
-	discord.AddHandler(func(s *discordgo.Session, m *discordgo.GuildMemberAdd, tmp *discordgo.MessageCreate) {
-		if m.User.ID == s.State.User.ID {
+	discord.AddHandler(func(s *discordgo.Session, tmp *discordgo.MessageCreate) {
+		if tmp.Member.User.ID == s.State.User.ID {
 			return
 		}
 		if tmp.Content == ".test" && tmp.Author.ID == "219472739109568518" {
@@ -144,7 +144,7 @@ func main() {
 					URL:  utils.WELCOME_ICON,
 				},
 			}
-			_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
+			_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "test msg") //"Hey <@"+m.User.ID+">"
 			if err != nil {
 				log.Println("Error while sending message ", err)
 			}
