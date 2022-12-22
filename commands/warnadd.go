@@ -10,11 +10,11 @@ import (
 var (
 	user            *discordgo.User
 	reason          string
-	warnedUserMap   map[*discordgo.User]int
+	warnedUserMap   map[string]int
 	warnedUserCache *cache.Cache
 )
 
-func SetWarnedUserMap(m map[*discordgo.User]int) {
+func SetWarnedUserMap(m map[string]int) {
 	warnedUserMap = m
 	warnedUserCache = cache.New(cache.NoExpiration, cache.NoExpiration)
 	warnedUserCache.Set("warnedUserMap", warnedUserMap, cache.NoExpiration)
@@ -24,7 +24,7 @@ func addWarn(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	if len(i.ApplicationCommandData().Options) > 1 {
 		reason = i.ApplicationCommandData().Options[1].StringValue()
 	}
-	warnedUserMap[user]++
+	warnedUserMap[user.ID]++
 	warnedUserCache.Set("warnedUserMap", warnedUserMap, cache.NoExpiration)
 }
 func WarnCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -36,7 +36,7 @@ func WarnCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				Embeds: []*discordgo.MessageEmbed{
 					{
 						Title:       "Warn",
-						Description: fmt.Sprintf("Warned %s for %s \n total warns: %d", user.Username, reason, warnedUserMap[user]),
+						Description: fmt.Sprintf("Warned %s for %s \n total warns: %d", user.Username, reason, warnedUserMap[user.ID]),
 					},
 				},
 			},

@@ -13,7 +13,7 @@ import (
 
 var (
 	TOKEN      string
-	WarnedUser = make(map[*discordgo.User]int)
+	WarnedUser = make(map[string]int)
 	c          *cache.Cache
 )
 
@@ -30,9 +30,9 @@ func cacheSetup() {
 	c = cache.New(cache.NoExpiration, cache.NoExpiration)
 
 	if v, found := c.Get("warnedUserMap"); found {
-		WarnedUser = v.(map[*discordgo.User]int)
+		WarnedUser = v.(map[string]int)
 	} else {
-		WarnedUser = make(map[*discordgo.User]int)
+		WarnedUser = make(map[string]int)
 	}
 }
 
