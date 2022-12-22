@@ -73,7 +73,6 @@ func main() {
 			if checkIfTicketExists {
 				channel, _ := s.UserChannelCreate(r.UserID)
 				_, _ = s.ChannelMessageSend(channel.ID, "You already have a ticket open!")
-
 			} else {
 				name := strings.ToLower("ticket-" + r.Member.User.Username)
 				st, err := s.GuildChannelCreateComplex(utils.SERVER_ID, discordgo.GuildChannelCreateData{
