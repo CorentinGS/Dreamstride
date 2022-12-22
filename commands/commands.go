@@ -139,6 +139,34 @@ var (
 			DefaultMemberPermissions: &defaultModPermissions,
 			DMPermission:             &dmPermissions,
 		},
+		{
+			Name:        "get-warns",
+			Description: "Gets the warns of a user",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionUser,
+					Name:        "user",
+					Description: "The user to get the warns of",
+					Required:    true,
+				},
+			},
+			DefaultMemberPermissions: &defaultModPermissions,
+			DMPermission:             &dmPermissions,
+		},
+		{
+			Name:        "reset-warns",
+			Description: "Resets the warns of a user",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionUser,
+					Name:        "user",
+					Description: "The user to reset the warns of",
+					Required:    true,
+				},
+			},
+			DefaultMemberPermissions: &defaultModPermissions,
+			DMPermission:             &dmPermissions,
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
@@ -151,6 +179,8 @@ var (
 		"purge":       PurgeCommand(),
 		"mute":        MuteCommand(),
 		"warn":        WarnCommand(),
+		"get-warns":   WarnGetCommand(),
+		"reset-warns": WarnResetCommand(),
 	}
 )
 
