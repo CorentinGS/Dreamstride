@@ -143,6 +143,9 @@ func main() {
 					Name: "Shuvi",
 					URL:  utils.WELCOME_ICON,
 				},
+				Thumbnail: &discordgo.MessageEmbedThumbnail{
+					URL: utils.WELCOME_ICON,
+				},
 			}
 			_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "test msg") //"Hey <@"+m.User.ID+">"
 			if err != nil {
