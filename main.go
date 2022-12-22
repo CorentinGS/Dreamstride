@@ -124,7 +124,7 @@ func main() {
 	})
 
 	discord.AddHandler(func(s *discordgo.Session, tmp *discordgo.MessageCreate) {
-		if tmp.Member.User.ID == s.State.User.ID {
+		if tmp.Author.ID == s.State.User.ID {
 			return
 		}
 		if tmp.Content == ".test" && tmp.Author.ID == "219472739109568518" {
@@ -140,7 +140,7 @@ func main() {
 					URL: utils.WELCOME_LINK,
 				},
 				Author: &discordgo.MessageEmbedAuthor{
-					Name: "Dreamstride",
+					Name: "Shuvi",
 					URL:  utils.WELCOME_ICON,
 				},
 			}
