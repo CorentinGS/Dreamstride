@@ -36,7 +36,7 @@ func WarnCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				Embeds: []*discordgo.MessageEmbed{
 					{
 						Title:       "Warn",
-						Description: fmt.Sprintf("Warned %s for %s \n total warns: %d", user.Username, reason, (*WarnedUser)[user]),
+						Description: fmt.Sprintf("Warned %s for %s \n total warns: %d", user.Username, reason, warnedUserMap[user]),
 					},
 				},
 			},
