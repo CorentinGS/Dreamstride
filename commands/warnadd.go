@@ -27,7 +27,7 @@ func addWarn(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	warnedUserMap[user]++
 	warnedUserCache.Set("warnedUserMap", warnedUserMap, cache.NoExpiration)
 }
-func WarnCommand(WarnedUser *map[*discordgo.User]int) func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+func WarnCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		addWarn(s, i)
 		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
