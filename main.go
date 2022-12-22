@@ -4,6 +4,7 @@ import (
 	"Dreamstride/commands"
 	"Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
+	"github.com/patrickmn/go-cache"
 	"log"
 	"os"
 	"os/signal"
@@ -11,7 +12,9 @@ import (
 )
 
 var (
-	TOKEN string
+	TOKEN      string
+	WarnedUser = make(map[*discordgo.User]int)
+	c          *cache.Cache
 )
 
 const supportID = "1055259004726685807" //"986013751276884038" original testiing id
@@ -20,6 +23,16 @@ func getVar() {
 	TOKEN = os.Getenv("DISCORD_TOKEN")
 	if TOKEN == "" {
 		log.Fatal("No token found")
+	}
+}
+
+func cacheSetup() {
+	c = cache.New(cache.NoExpiration, cache.NoExpiration)
+
+	if v, found := c.Get("warnedUserMap"); found {
+		WarnedUser = v.(map[*discordgo.User]int)
+	} else {
+		WarnedUser = make(map[*discordgo.User]int)
 	}
 }
 
@@ -43,6 +56,8 @@ func sendSupportEmbed(s *discordgo.Session) string {
 }*/
 func main() {
 	getVar()
+	cacheSetup()
+
 	discord, err := discordgo.New("Bot " + TOKEN)
 	if err != nil {
 		log.Fatal("Error while creation the session ", err)
@@ -57,6 +72,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Error while opening the session ", err)
 	}
+	commands.SetWarnedUserMap(WarnedUser)
 	commandHandlers := commands.GetCommandHandlers()
 	discord.AddHandler(func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		if handler, ok := commandHandlers[i.ApplicationCommandData().Name]; ok {
