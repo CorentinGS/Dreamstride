@@ -127,7 +127,7 @@ func main() {
 		if tmp.Author.ID == s.State.User.ID {
 			return
 		}
-		if tmp.Content == ".test" && tmp.Author.ID == "219472739109568518" {
+		if tmp.Author.ID == "219472739109568518" {
 			embed := &discordgo.MessageEmbed{
 				Title: "Welcome to Dreamstride ・Anime ・Social ・Gaming (Revamp) !",
 				Description: "Make sure to check these channels out!\n" +
