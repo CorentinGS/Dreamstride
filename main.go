@@ -123,30 +123,35 @@ func main() {
 		}
 	})
 
-	discord.AddHandler(func(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
-		embed := &discordgo.MessageEmbed{
-			Title: "Welcome to Dreamstride ・Anime ・Social ・Gaming (Revamp) !",
-			Description: "Make sure to check these channels out!\n" +
-				":DS_watch:】 <#1055546995890200636>\n" +
-				":DS_playingwithhair:】 <#1055546995890200636>\n" +
-				":DS_hug:】 <#1055546995890200636>\n\n" +
-				":DS_glad~1:】 】 We hope you have an enjoyable experience here at Dreamstride !\n",
-			Color: 0xDF73F5,
-			Image: &discordgo.MessageEmbedImage{
-				URL: utils.WELCOME_LINK,
-			},
-			Author: &discordgo.MessageEmbedAuthor{
-				Name: "Dreamstride",
-				URL:  utils.WELCOME_ICON,
-			},
+	discord.AddHandler(func(s *discordgo.Session, m *discordgo.GuildMemberAdd, tmp *discordgo.MessageCreate) {
+		if m.User.ID == s.State.User.ID {
+			return
 		}
-		_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
-		if err != nil {
-			log.Println("Error while sending message ", err)
-		}
-		_, err = s.ChannelMessageSendEmbed(utils.WELCOME_CHAN, embed)
-		if err != nil {
-			log.Panicln("Error while sending embed ", err)
+		if tmp.Content == ".test" && tmp.Author.ID == "219472739109568518" {
+			embed := &discordgo.MessageEmbed{
+				Title: "Welcome to Dreamstride ・Anime ・Social ・Gaming (Revamp) !",
+				Description: "Make sure to check these channels out!\n" +
+					":DS_watch:】 <#1055546995890200636>\n" +
+					":DS_playingwithhair:】 <#1055546995890200636>\n" +
+					":DS_hug:】 <#1055546995890200636>\n\n" +
+					":DS_glad~1:】 】 We hope you have an enjoyable experience here at Dreamstride !\n",
+				Color: 0xDF73F5,
+				Image: &discordgo.MessageEmbedImage{
+					URL: utils.WELCOME_LINK,
+				},
+				Author: &discordgo.MessageEmbedAuthor{
+					Name: "Dreamstride",
+					URL:  utils.WELCOME_ICON,
+				},
+			}
+			_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
+			if err != nil {
+				log.Println("Error while sending message ", err)
+			}
+			_, err = s.ChannelMessageSendEmbed(utils.WELCOME_CHAN, embed)
+			if err != nil {
+				log.Panicln("Error while sending embed ", err)
+			}
 		}
 	})
 	appCommands := commands.GetCommands()
