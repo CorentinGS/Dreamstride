@@ -68,6 +68,7 @@ func main() {
 			Type: discordgo.ActivityTypeWatching,
 		},
 	}
+	discord.Identify.Intents = discordgo.MakeIntent(discordgo.IntentsAll)
 	err = discord.Open()
 	if err != nil {
 		log.Fatal("Error while opening the session ", err)
