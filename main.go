@@ -3,7 +3,6 @@ package main
 import (
 	"Dreamstride/commands"
 	"Dreamstride/utils"
-	_ "Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
 	"log"
 	"os"

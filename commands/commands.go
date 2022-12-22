@@ -119,6 +119,26 @@ var (
 			DefaultMemberPermissions: &defaultModPermissions,
 			DMPermission:             &dmPermissions,
 		},
+		{
+			Name:        "warn",
+			Description: "Warns a user",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionUser,
+					Name:        "user",
+					Description: "The user to warn",
+					Required:    true,
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "reason",
+					Description: "The reason for the warn",
+					Required:    false,
+				},
+			},
+			DefaultMemberPermissions: &defaultModPermissions,
+			DMPermission:             &dmPermissions,
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
@@ -130,6 +150,7 @@ var (
 		"ban":         BanCommand(),
 		"purge":       PurgeCommand(),
 		"mute":        MuteCommand(),
+		"warn":        WarnCommand(),
 	}
 )
 
