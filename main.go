@@ -124,32 +124,30 @@ func main() {
 	})
 
 	discord.AddHandler(func(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
-		_, _ = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
 		embed := &discordgo.MessageEmbed{
-			URL:   "",
-			Type:  "",
 			Title: "Welcome to Dreamstride ・Anime ・Social ・Gaming (Revamp) !",
 			Description: "Make sure to check these channels out!\n" +
 				":DS_watch:】 <#1055546995890200636>\n" +
 				":DS_playingwithhair:】 <#1055546995890200636>\n" +
 				":DS_hug:】 <#1055546995890200636>\n\n" +
 				":DS_glad~1:】 】 We hope you have an enjoyable experience here at Dreamstride !\n",
-			Timestamp: "",
-			Color:     0xDF73F5,
-			Footer:    nil,
+			Color: 0xDF73F5,
 			Image: &discordgo.MessageEmbedImage{
 				URL: utils.WELCOME_LINK,
 			},
-			Thumbnail: nil,
-			Video:     nil,
-			Provider:  nil,
 			Author: &discordgo.MessageEmbedAuthor{
 				Name: "Dreamstride",
 				URL:  utils.WELCOME_ICON,
 			},
-			Fields: nil,
 		}
-		_, _ = s.ChannelMessageSendEmbed(utils.WELCOME_CHAN, embed)
+		_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
+		if err != nil {
+			log.Println("Error while sending message ", err)
+		}
+		_, err = s.ChannelMessageSendEmbed(utils.WELCOME_CHAN, embed)
+		if err != nil {
+			log.Panicln("Error while sending embed ", err)
+		}
 	})
 	appCommands := commands.GetCommands()
 	_, err = discord.ApplicationCommandBulkOverwrite(discord.State.User.ID, discord.State.Guilds[0].ID, appCommands)
