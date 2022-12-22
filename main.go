@@ -127,14 +127,14 @@ func main() {
 		if tmp.Author.ID == s.State.User.ID {
 			return
 		}
-		if tmp.Author.ID == "219472739109568518" {
+		if tmp.Content == "$test" && tmp.Author.ID == "219472739109568518" {
 			embed := &discordgo.MessageEmbed{
 				Title: "Welcome to Dreamstride ・Anime ・Social ・Gaming (Revamp) !",
 				Description: "Make sure to check these channels out!\n" +
-					":DS_watch:】 <#1055546995890200636>\n" +
-					":DS_playingwithhair:】 <#1055546995890200636>\n" +
-					":DS_hug:】 <#1055546995890200636>\n\n" +
-					":DS_glad~1:】 】 We hope you have an enjoyable experience here at Dreamstride !\n",
+					":DS_watch: 】 <#955192188776616081>\n" +
+					":DS_playingwithhair: 】 <#955192188776616082>\n" +
+					":DS_hug: 】 <#955192188776616085>\n\n" +
+					":DS_glad~1: 】 We hope you have an enjoyable experience here at Dreamstride !\n",
 				Color: 0xDF73F5,
 				Image: &discordgo.MessageEmbedImage{
 					URL: utils.WELCOME_LINK,
