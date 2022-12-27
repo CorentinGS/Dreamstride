@@ -34,7 +34,6 @@ func GetChannels(s *discordgo.Session) []*discordgo.Channel {
 	return channels
 }
 
-// return unix time in seconds
 func GetTimestamp() string {
 	return fmt.Sprintf("%d", time.Now().Unix())
 }
