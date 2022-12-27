@@ -57,7 +57,7 @@ func sendSupportEmbed(s *discordgo.Session) string {
 func main() {
 	getVar()
 	cacheSetup()
-
+	utils.RaidMode = false
 	discord, err := discordgo.New("Bot " + TOKEN)
 	if err != nil {
 		log.Fatal("Error while creation the session ", err)
