@@ -3,11 +3,13 @@ package commands
 import (
 	"Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
+	"log"
 )
 
 func RaidModeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		utils.RaidMode = i.ApplicationCommandData().Options[0].BoolValue()
+		log.Println("Raid mode :", utils.RaidMode)
 		if utils.RaidMode {
 			_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
