@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"log"
 	"runtime"
@@ -33,6 +34,7 @@ func GetChannels(s *discordgo.Session) []*discordgo.Channel {
 	return channels
 }
 
+// return unix time in seconds
 func GetTimestamp() string {
-	return time.Now().Format("2006-01-02 15:04:05")
+	return fmt.Sprintf("%d", time.Now().Unix())
 }

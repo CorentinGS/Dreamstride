@@ -18,7 +18,7 @@ func RaidModeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate
 							Description: "Raid mode has been enabled,\n" +
 								"new members will be kicked until raid mode is disabled",
 							Color:     utils.RED,
-							Timestamp: utils.GetTimestamp(),
+							Timestamp: "<t:" + utils.GetTimestamp() + ">",
 						},
 					},
 				},
@@ -32,7 +32,7 @@ func RaidModeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate
 							Title:       "Raid Mode",
 							Description: "Raid mode has been disabled",
 							Color:       utils.GREEN,
-							Timestamp:   utils.GetTimestamp(),
+							Timestamp:   "<t:" + utils.GetTimestamp() + ">",
 						},
 					},
 				},
