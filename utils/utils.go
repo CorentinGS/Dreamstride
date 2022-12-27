@@ -5,6 +5,7 @@ import (
 	"log"
 	"runtime"
 	"strings"
+	"time"
 )
 
 func Log(caller string, id string, messages ...string) {
@@ -30,4 +31,8 @@ func GetChannels(s *discordgo.Session) []*discordgo.Channel {
 		log.Println("Error while getting channels ", err)
 	}
 	return channels
+}
+
+func GetTimestamp() string {
+	return time.Now().Format("2006-01-02 15:04:05")
 }

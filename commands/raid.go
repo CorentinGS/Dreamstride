@@ -14,10 +14,11 @@ func RaidModeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate
 				Data: &discordgo.InteractionResponseData{
 					Embeds: []*discordgo.MessageEmbed{
 						{
-							Title: "Raid Mode",
-							Description: "<a:Alert:1057105839812530287>Raid mode has been enabled,\n" +
-								"new members will be kicked until raid mode is disabled<a:Alert:1057105839812530287>",
-							Color: utils.RED,
+							Title: "<a:Alert:1057105839812530287>Raid Mode<a:Alert:1057105839812530287>",
+							Description: "Raid mode has been enabled,\n" +
+								"new members will be kicked until raid mode is disabled",
+							Color:     utils.RED,
+							Timestamp: utils.GetTimestamp(),
 						},
 					},
 				},
@@ -31,6 +32,7 @@ func RaidModeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate
 							Title:       "Raid Mode",
 							Description: "Raid mode has been disabled",
 							Color:       utils.GREEN,
+							Timestamp:   utils.GetTimestamp(),
 						},
 					},
 				},
