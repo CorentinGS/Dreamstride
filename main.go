@@ -125,30 +125,35 @@ func main() {
 	})
 
 	discord.AddHandler(func(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
-		embed := &discordgo.MessageEmbed{
-			Title: "Welcome to Dreamstride ・Anime ・Social ・Gaming (Revamp) !",
-			Description: "Make sure to check these channels out!\n" +
-				"<a:DS_watch:1053113846346289192>】 <#955192188776616081>\n" +
-				"<a:DS_playingwithhair:1053115074010697800>】 <#955192188776616082>\n" +
-				"<a:DS_hug:1053133920637554819>】 <#955192188776616085>\n\n" +
-				"<a:DS_glad:1053134867271012362>】 We hope you have an enjoyable experience here at Dreamstride !\n",
-			Color: 0xDF73F5,
-			Image: &discordgo.MessageEmbedImage{
-				URL: utils.WELCOME_LINK,
-			},
-			Thumbnail: &discordgo.MessageEmbedThumbnail{
-				URL: utils.WELCOME_ICON,
-			},
+		if !utils.RaidMode {
+			embed := &discordgo.MessageEmbed{
+				Title: "Welcome to Dreamstride ・Anime ・Social ・Gaming (Revamp) !",
+				Description: "Make sure to check these channels out!\n" +
+					"<a:DS_watch:1053113846346289192>】 <#955192188776616081>\n" +
+					"<a:DS_playingwithhair:1053115074010697800>】 <#955192188776616082>\n" +
+					"<a:DS_hug:1053133920637554819>】 <#955192188776616085>\n\n" +
+					"<a:DS_glad:1053134867271012362>】 We hope you have an enjoyable experience here at Dreamstride !\n",
+				Color: 0xDF73F5,
+				Image: &discordgo.MessageEmbedImage{
+					URL: utils.WELCOME_LINK,
+				},
+				Thumbnail: &discordgo.MessageEmbedThumbnail{
+					URL: utils.WELCOME_ICON,
+				},
+			}
+			_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
+			if err != nil {
+				log.Println("Error while sending message ", err)
+			}
+			_, err = s.ChannelMessageSendEmbed(utils.WELCOME_CHAN, embed)
+			if err != nil {
+				log.Panicln("Error while sending embed ", err)
+			}
+		} else {
+			channel, _ := s.UserChannelCreate(m.User.ID)
+			_, _ = s.ChannelMessageSend(channel.ID, "The server is currently in raid mode. Please try again later.")
+			_ = s.GuildMemberDeleteWithReason(utils.SERVER_ID, m.User.ID, "Raid mode is enabled.")
 		}
-		_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
-		if err != nil {
-			log.Println("Error while sending message ", err)
-		}
-		_, err = s.ChannelMessageSendEmbed(utils.WELCOME_CHAN, embed)
-		if err != nil {
-			log.Panicln("Error while sending embed ", err)
-		}
-
 	})
 	appCommands := commands.GetCommands()
 	_, err = discord.ApplicationCommandBulkOverwrite(discord.State.User.ID, discord.State.Guilds[0].ID, appCommands)

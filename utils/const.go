@@ -15,3 +15,5 @@ const (
 	WELCOME_ICON = "https://cdn.discordapp.com/attachments/1033771925052338217/1054934057995227146/Dreamstride_Icon.png"
 	WELCOME_CHAN = "955192189032493148"
 )
+
+var RaidMode bool

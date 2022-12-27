@@ -167,6 +167,20 @@ var (
 			DefaultMemberPermissions: &defaultModPermissions,
 			DMPermission:             &dmPermissions,
 		},
+		{
+			Name:        "raidmode",
+			Description: "Toggles raidmode",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionBoolean,
+					Name:        "enable",
+					Description: "Whether to enable or disable raidmode",
+					Required:    true,
+				},
+			},
+			DefaultMemberPermissions: &defaultAdminPermissions,
+			DMPermission:             &dmPermissions,
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
@@ -181,6 +195,7 @@ var (
 		"warn":        WarnCommand(),
 		"get-warns":   WarnGetCommand(),
 		"reset-warns": WarnResetCommand(),
+		"raidmode":    RaidModeCommand(),
 	}
 )
 
