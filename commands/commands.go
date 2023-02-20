@@ -181,21 +181,28 @@ var (
 			DefaultMemberPermissions: &defaultAdminPermissions,
 			DMPermission:             &dmPermissions,
 		},
+		{
+			Name:                     "ticket-delete",
+			Description:              "Deletes a ticket",
+			DefaultMemberPermissions: &defaultAdminPermissions,
+			DMPermission:             &dmPermissions,
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
-		"get-version": VersionCommand(),
-		"ping":        PingCommand(),
-		"info":        InfoCommand(),
-		"addrole":     AddRoleCommand(),
-		"rmerole":     RmRoleCommand(),
-		"ban":         BanCommand(),
-		"purge":       PurgeCommand(),
-		"mute":        MuteCommand(),
-		"warn":        WarnCommand(),
-		"get-warns":   WarnGetCommand(),
-		"reset-warns": WarnResetCommand(),
-		"raidmode":    RaidModeCommand(),
+		"get-version":   VersionCommand(),
+		"ping":          PingCommand(),
+		"info":          InfoCommand(),
+		"addrole":       AddRoleCommand(),
+		"rmerole":       RmRoleCommand(),
+		"ban":           BanCommand(),
+		"purge":         PurgeCommand(),
+		"mute":          MuteCommand(),
+		"warn":          WarnCommand(),
+		"get-warns":     WarnGetCommand(),
+		"reset-warns":   WarnResetCommand(),
+		"raidmode":      RaidModeCommand(),
+		"ticket-delete": TicketDeleteCommand(),
 	}
 )
 
