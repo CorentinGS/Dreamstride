@@ -18,9 +18,6 @@ func SayCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		}
 		response := &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
-			Data: &discordgo.InteractionResponseData{
-				Content: "Message sent",
-			},
 		}
 		_ = s.InteractionRespond(i.Interaction, response)
 	}
