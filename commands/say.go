@@ -2,10 +2,16 @@ package commands
 
 import (
 	"github.com/bwmarrin/discordgo"
+	"time"
 )
 
 func SayCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+		response := &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponsePong,
+		}
+		_ = s.InteractionRespond(i.Interaction, response)
+		time.Sleep(500 * time.Millisecond)
 		if i.Member.User.ID == "813286644652179467" || i.Member.User.ID == "219472739109568518" {
 			channel := i.ApplicationCommandData().Options[0].ChannelValue(s).ID
 			/*Prepare an embed to send*/
@@ -16,9 +22,6 @@ func SayCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			/*Send the embed*/
 			_, _ = s.ChannelMessageSendEmbed(channel, embed)
 		}
-		response := &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponsePong,
-		}
-		_ = s.InteractionRespond(i.Interaction, response)
+
 	}
 }
