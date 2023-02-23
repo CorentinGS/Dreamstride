@@ -17,7 +17,7 @@ func SayCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			_, _ = s.ChannelMessageSendEmbed(channel, embed)
 		}
 		response := &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Type: discordgo.InteractionResponsePong,
 		}
 		_ = s.InteractionRespond(i.Interaction, response)
 	}
