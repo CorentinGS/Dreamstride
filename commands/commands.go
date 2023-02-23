@@ -5,6 +5,7 @@ import "github.com/bwmarrin/discordgo"
 var (
 	defaultAdminPermissions int64 = discordgo.PermissionAdministrator
 	defaultModPermissions   int64 = discordgo.PermissionManageMessages
+	amelia                  int64 = discordgo.PermissionAdministrator
 	dmPermissions                 = false
 	commands                      = []*discordgo.ApplicationCommand{
 		{
@@ -187,6 +188,26 @@ var (
 			DefaultMemberPermissions: &defaultAdminPermissions,
 			DMPermission:             &dmPermissions,
 		},
+		{
+			Name:        "say",
+			Description: "Special command for Amelia",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionChannel,
+					Name:        "channel",
+					Description: "The channel you want the message sent in",
+					Required:    true,
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "message",
+					Description: "The message you want to send",
+					Required:    true,
+				},
+			},
+			DefaultMemberPermissions: &amelia,
+			DMPermission:             &dmPermissions,
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
@@ -203,6 +224,7 @@ var (
 		"reset-warns":   WarnResetCommand(),
 		"raidmode":      RaidModeCommand(),
 		"ticket-delete": TicketDeleteCommand(),
+		"say":           SayCommand(),
 	}
 )
 

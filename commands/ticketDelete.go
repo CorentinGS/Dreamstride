@@ -16,6 +16,18 @@ func TicketDeleteCommand() func(s *discordgo.Session, i *discordgo.InteractionCr
 		channelName := getName(tmp)
 		if strings.Contains(channelName, "ticket-") {
 			_, _ = s.ChannelDelete(targetChannel)
+		} else {
+			_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+				Type: discordgo.InteractionResponseChannelMessageWithSource,
+				Data: &discordgo.InteractionResponseData{
+					Embeds: []*discordgo.MessageEmbed{
+						{
+							Title:       "Error",
+							Description: "You can only use this command in a ticket channel",
+						},
+					},
+				},
+			})
 		}
 	}
 }
