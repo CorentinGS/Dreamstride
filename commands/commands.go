@@ -5,7 +5,7 @@ import "github.com/bwmarrin/discordgo"
 var (
 	defaultAdminPermissions int64 = discordgo.PermissionAdministrator
 	defaultModPermissions   int64 = discordgo.PermissionManageMessages
-	amelia                  int64 = discordgo.PermissionAdministrator
+	amelia                  int64 = discordgo.PermissionManageServer
 	dmPermissions                 = false
 	commands                      = []*discordgo.ApplicationCommand{
 		{
@@ -208,6 +208,20 @@ var (
 			DefaultMemberPermissions: &amelia,
 			DMPermission:             &dmPermissions,
 		},
+		{
+			Name:        "welcome-image",
+			Description: "Change the current welcome image",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "image",
+					Description: "The image you want to use",
+					Required:    true,
+				},
+			},
+			DefaultMemberPermissions: &amelia,
+			DMPermission:             &dmPermissions,
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
@@ -225,6 +239,7 @@ var (
 		"raidmode":      RaidModeCommand(),
 		"ticket-delete": TicketDeleteCommand(),
 		"say":           SayCommand(),
+		"welcome-image": WelcomeImageCommand(),
 	}
 )
 

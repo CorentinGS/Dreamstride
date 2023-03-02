@@ -11,9 +11,12 @@ const (
 	PURPLE    = 0x800080
 
 	// link used for joining embed
-	WELCOME_LINK = "https://cdn.discordapp.com/attachments/967675655779135538/1080171826942070895/e3e5ccdfcb0df8feb7f1090d953bb168.jpg"
-	WELCOME_ICON = "https://cdn.discordapp.com/attachments/1033771925052338217/1054934057995227146/Dreamstride_Icon.png"
 	WELCOME_CHAN = "955192189032493148"
 )
 
-var RaidMode bool
+var (
+	RaidMode     bool
+	WELCOME_LINK = "https://cdn.discordapp.com/attachments/967675655779135538/1080171826942070895/e3e5ccdfcb0df8feb7f1090d953bb168.jpg"
+	WELCOME_ICON = "https://cdn.discordapp.com/attachments/1033771925052338217/1054934057995227146/Dreamstride_Icon.png"
+)
+
