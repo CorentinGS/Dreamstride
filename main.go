@@ -127,12 +127,15 @@ func main() {
 	discord.AddHandler(func(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
 		if !utils.RaidMode {
 			embed := &discordgo.MessageEmbed{
-				Title: "Welcome to Dreamstride ・Anime ・Social ・Gaming (Revamp) !",
-				Description: "Make sure to check these channels out!\n" +
-					"<a:DS_watch:1053113846346289192>】 <#955192188776616081>\n" +
-					"<a:DS_playingwithhair:1053115074010697800>】 <#955192188776616082>\n" +
-					"<a:DS_hug:1053133920637554819>】 <#955192188776616085>\n\n" +
-					"<a:DS_glad:1053134867271012362>】 We hope you have an enjoyable experience here at Dreamstride !\n",
+				Title: "Welcome to the server !<a:DS_strawberry:1081335566265761842>",
+				Description: "︶︶︶✿︶♡︶꒷꒦︶︶✿︶︶\n" +
+					"<a:DS_heart:1081315143398461461> : <#955192188776616081>\n" +
+					"<a:DS_heart:1081315143398461461> : <#955192188776616085>\n" +
+					"<a:DS_heart:1081315143398461461> : <#955192188776616082>\n" +
+					"<a:DS_heart:1081315143398461461> : <#995805735235620864>\n" +
+					"<a:DS_heart:1081315143398461461> : <#995823153567768576>\n" +
+					"︶︶︶✿︶♡︶꒷꒦︶︶✿︶︶\n" +
+					"We hope you enjoy your stay !<a:DS_FloatingHeart:955580787909087322>\n",
 				Color: 0xDF73F5,
 				Image: &discordgo.MessageEmbedImage{
 					URL: utils.WELCOME_LINK,
