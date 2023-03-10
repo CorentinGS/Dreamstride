@@ -34,9 +34,9 @@ func WelcomeImageCommand() func(s *discordgo.Session, i *discordgo.InteractionCr
 			Image: &discordgo.MessageEmbedImage{
 				URL: utils.WELCOME_LINK,
 			},
-			/*Thumbnail: &discordgo.MessageEmbedThumbnail{
+			Thumbnail: &discordgo.MessageEmbedThumbnail{
 				URL: utils.WELCOME_ICON,
-			},*/
+			},
 		}
 		_, _ = s.ChannelMessageSendEmbed(i.ChannelID, embed)
 	}

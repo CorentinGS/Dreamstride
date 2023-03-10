@@ -140,9 +140,9 @@ func main() {
 				Image: &discordgo.MessageEmbedImage{
 					URL: utils.WELCOME_LINK,
 				},
-				/*Thumbnail: &discordgo.MessageEmbedThumbnail{
+				Thumbnail: &discordgo.MessageEmbedThumbnail{
 					URL: utils.WELCOME_ICON,
-				},*/
+				},
 			}
 			_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
 			if err != nil {

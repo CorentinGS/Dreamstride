@@ -16,7 +16,6 @@ const (
 
 var (
 	RaidMode     bool
-	WELCOME_LINK = "https://cdn.discordapp.com/attachments/967675655779135538/1080171826942070895/e3e5ccdfcb0df8feb7f1090d953bb168.jpg"
-	WELCOME_ICON = "https://cdn.discordapp.com/attachments/1033771925052338217/1054934057995227146/Dreamstride_Icon.png"
+	WELCOME_LINK = "https://media.discordapp.net/attachments/1058537538006024303/1081412605849108573/3b57b1ccc67a632946da0f3ac4385127.jpg"
+	WELCOME_ICON = "https://media.discordapp.net/attachments/967675655779135538/1083849660369752143/111.jpg"
 )
-
