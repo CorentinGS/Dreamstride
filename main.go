@@ -1,14 +1,15 @@
 package main
 
 import (
-	"Dreamstride/commands"
-	"Dreamstride/utils"
-	"github.com/bwmarrin/discordgo"
-	"github.com/patrickmn/go-cache"
 	"log"
 	"os"
 	"os/signal"
 	"strings"
+
+	"Dreamstride/commands"
+	"Dreamstride/utils"
+	"github.com/bwmarrin/discordgo"
+	"github.com/patrickmn/go-cache"
 )
 
 var (
@@ -17,7 +18,7 @@ var (
 	c          *cache.Cache
 )
 
-const supportID = "1055259004726685807" //"986013751276884038" original testiing id
+const supportID = "1055259004726685807" // "986013751276884038" original testing id
 
 func getVar() {
 	TOKEN = os.Getenv("DISCORD_TOKEN")
@@ -37,23 +38,24 @@ func cacheSetup() {
 }
 
 /*
-func sendSupportEmbed(s *discordgo.Session) string {
-	embed := &discordgo.MessageEmbed{
-		Title:       "Support",
-		Description: "If you need help with the bot, or have any questions, react to this message with 📩 to open a ticket.",
-		Color:       0x00ff00,
-	}
-	msg, err := s.ChannelMessageSendEmbed(supportChannel, embed)
-	if err != nil {
-		log.Println("Error while sending embed ", err)
-	}
+	func sendSupportEmbed(s *discordgo.Session) string {
+		embed := &discordgo.MessageEmbed{
+			Title:       "Support",
+			Description: "If you need help with the bot, or have any questions, react to this message with 📩 to open a ticket.",
+			Color:       0x00ff00,
+		}
+		msg, err := s.ChannelMessageSendEmbed(supportChannel, embed)
+		if err != nil {
+			log.Println("Error while sending embed ", err)
+		}
 
-	err = s.MessageReactionAdd(supportChannel, msg.ID, "📩")
-	if err != nil {
-		log.Println("Error while adding reaction ", err)
+		err = s.MessageReactionAdd(supportChannel, msg.ID, "📩")
+		if err != nil {
+			log.Println("Error while adding reaction ", err)
+		}
+		return msg.ID
 	}
-	return msg.ID
-}*/
+*/
 func main() {
 	getVar()
 	cacheSetup()
@@ -79,9 +81,8 @@ func main() {
 		if handler, ok := commandHandlers[i.ApplicationCommandData().Name]; ok {
 			handler(s, i)
 		}
-
 	})
-	//supportID := sendSupportEmbed(discord)
+	// supportID := sendSupportEmbed(discord)
 
 	discord.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		if r.Emoji.Name == "📩" && r.Member.User.ID != s.State.User.ID && r.MessageID == supportID {
@@ -91,7 +92,7 @@ func main() {
 				_, _ = s.ChannelMessageSend(channel.ID, "You already have a ticket open!")
 			} else {
 				name := strings.ToLower("ticket-" + r.Member.User.Username)
-				st, err := s.GuildChannelCreateComplex(utils.SERVER_ID, discordgo.GuildChannelCreateData{
+				st, err := s.GuildChannelCreateComplex(utils.ServerID, discordgo.GuildChannelCreateData{
 					Name:     name,
 					Type:     discordgo.ChannelTypeGuildText,
 					ParentID: "1055265595697930290", // Support category ID
@@ -136,26 +137,26 @@ func main() {
 					"<a:DS_heart:1081315143398461461> : <#995823153567768576>\n" +
 					"︶︶︶✿︶♡︶꒷꒦︶︶✿︶︶\n" +
 					"We hope you enjoy your stay !<a:DS_FloatingHeart:955580787909087322>\n",
-				Color: 0xDF73F5,
+				Color: utils.SALMON,
 				Image: &discordgo.MessageEmbedImage{
-					URL: utils.WELCOME_LINK,
+					URL: utils.WelcomeLink,
 				},
 				Thumbnail: &discordgo.MessageEmbedThumbnail{
-					URL: utils.WELCOME_ICON,
+					URL: utils.WelcomeIcon,
 				},
 			}
-			_, err = s.ChannelMessageSend(utils.WELCOME_CHAN, "Hey <@"+m.User.ID+">")
+			_, err = s.ChannelMessageSend(utils.WelcomeChan, "Hey <@"+m.User.ID+">")
 			if err != nil {
 				log.Println("Error while sending message ", err)
 			}
-			_, err = s.ChannelMessageSendEmbed(utils.WELCOME_CHAN, embed)
+			_, err = s.ChannelMessageSendEmbed(utils.WelcomeChan, embed)
 			if err != nil {
 				log.Panicln("Error while sending embed ", err)
 			}
 		} else {
 			channel, _ := s.UserChannelCreate(m.User.ID)
 			_, _ = s.ChannelMessageSend(channel.ID, "The server is currently in raid mode. Please try again later.")
-			_ = s.GuildMemberDeleteWithReason(utils.SERVER_ID, m.User.ID, "Raid mode is enabled.")
+			_ = s.GuildMemberDeleteWithReason(utils.ServerID, m.User.ID, "Raid mode is enabled.")
 		}
 	})
 	appCommands := commands.GetCommands()
@@ -187,5 +188,4 @@ func main() {
 		log.Println("Removed commands")
 	}
 	log.Println("Gracefully shutting down.")
-
 }

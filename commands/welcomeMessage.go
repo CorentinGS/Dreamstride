@@ -7,7 +7,7 @@ import (
 
 func WelcomeImageCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-		utils.WELCOME_LINK = i.ApplicationCommandData().Options[0].StringValue()
+		utils.WelcomeLink = i.ApplicationCommandData().Options[0].StringValue()
 		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
@@ -30,12 +30,12 @@ func WelcomeImageCommand() func(s *discordgo.Session, i *discordgo.InteractionCr
 				"<a:DS_heart:1081315143398461461> : <#995823153567768576>\n" +
 				"︶︶︶✿︶♡︶꒷꒦︶︶✿︶︶\n" +
 				"We hope you enjoy your stay !<a:DS_FloatingHeart:955580787909087322>\n",
-			Color: 0xDF73F5,
+			Color: utils.SALMON,
 			Image: &discordgo.MessageEmbedImage{
-				URL: utils.WELCOME_LINK,
+				URL: utils.WelcomeLink,
 			},
 			Thumbnail: &discordgo.MessageEmbedThumbnail{
-				URL: utils.WELCOME_ICON,
+				URL: utils.WelcomeIcon,
 			},
 		}
 		_, _ = s.ChannelMessageSendEmbed(i.ChannelID, embed)

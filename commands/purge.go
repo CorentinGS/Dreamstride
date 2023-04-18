@@ -1,11 +1,12 @@
 package commands
 
 import (
-	"Dreamstride/utils"
 	"fmt"
-	"github.com/bwmarrin/discordgo"
 	"sync"
 	"time"
+
+	"Dreamstride/utils"
+	"github.com/bwmarrin/discordgo"
 )
 
 const rateLimit = 1 // rate limit of 2 requests per second
@@ -37,9 +38,9 @@ func (r *rateLimiter) limit() {
 	r.mutex.Lock()
 	r.tokens--
 }
+
 func PurgeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-
 		numMessage := i.ApplicationCommandData().Options[0].IntValue()
 
 		var wg sync.WaitGroup
@@ -67,7 +68,7 @@ func PurgeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				} else {
 					_ = s.ChannelMessageDelete(i.ChannelID, messageID)
 				}
-				time.Sleep(time.Millisecond * 500)
+				time.Sleep(time.Millisecond * utils.RateLimitSleep)
 			}(message.ID)
 		}
 
