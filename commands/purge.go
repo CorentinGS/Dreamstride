@@ -11,8 +11,8 @@ import (
 const rateLimit = 1 // rate limit of 2 requests per second
 
 type rateLimiter struct {
-	tokens int
 	tick   *time.Ticker
+	tokens int
 	mutex  sync.Mutex
 }
 
