@@ -1,3 +1,3 @@
 # Dreamstride
 
-Private bot for https://discord.gg/dreamstride
+Private bot for [Dreamstride](https://discord.gg/cXEDCMqaWz)
