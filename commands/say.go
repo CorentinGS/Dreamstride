@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -11,7 +12,7 @@ func SayCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			/*Prepare an embed to send*/
 			embed := &discordgo.MessageEmbed{
 				Description: i.ApplicationCommandData().Options[1].StringValue(),
-				Color:       0xffc0cb, // pink
+				Color:       utils.PINK, // pink
 			}
 			/*Send the embed*/
 			_, _ = s.ChannelMessageSendEmbed(channel, embed)
@@ -19,7 +20,7 @@ func SayCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		_ = &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
-				Flags: discordgo.MessageFlags(64),
+				Flags: discordgo.MessageFlagsEphemeral,
 			},
 		}
 	}

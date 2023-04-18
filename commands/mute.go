@@ -1,24 +1,24 @@
 package commands
 
 import (
-	"Dreamstride/utils"
-	"github.com/bwmarrin/discordgo"
 	"strconv"
 	"time"
+
+	"Dreamstride/utils"
+	"github.com/bwmarrin/discordgo"
 )
 
 func timeoutUser(s *discordgo.Session, userID string, until time.Duration) bool {
-	url := "https://discord.com/api/v9/guilds/" + utils.SERVER_ID + "/members/" + userID
+	url := "https://discord.com/api/v9/guilds/" + utils.ServerID + "/members/" + userID
 	timeout := time.Now().Add(until)
 	json := map[string]string{
 		"communication_disabled_until": timeout.Format(time.RFC3339),
 	}
 	_, err := s.RequestWithBucketID("PATCH", url, json,
-		discordgo.EndpointGuildMember(utils.SERVER_ID, userID))
-	if err != nil {
-		return false
-	}
-	return true
+		discordgo.EndpointGuildMember(utils.ServerID, userID))
+	// If there is no error, the user has been muted successfully, and we return true to the caller
+	// If there is an error, we return false to the caller
+	return err == nil
 }
 
 func MuteCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {

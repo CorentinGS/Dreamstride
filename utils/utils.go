@@ -2,11 +2,12 @@ package utils
 
 import (
 	"fmt"
-	"github.com/bwmarrin/discordgo"
 	"log"
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 func Log(caller string, id string, messages ...string) {
@@ -27,7 +28,7 @@ func CheckIfTicketExists(s *discordgo.Session, id string) bool {
 }
 
 func GetChannels(s *discordgo.Session) []*discordgo.Channel {
-	channels, err := s.GuildChannels(SERVER_ID)
+	channels, err := s.GuildChannels(ServerID)
 	if err != nil {
 		log.Println("Error while getting channels ", err)
 	}

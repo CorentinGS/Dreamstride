@@ -5,7 +5,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-//return the latency of the bot
+// PingCommand return the latency of the bot
 func PingCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		utils.Log(i.Member.User.Username, i.Member.User.ID, "Ping command called")

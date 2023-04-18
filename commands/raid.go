@@ -1,9 +1,10 @@
 package commands
 
 import (
+	"log"
+
 	"Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
-	"log"
 )
 
 func RaidModeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -20,7 +21,7 @@ func RaidModeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate
 							Description: "Raid mode has been enabled,\n" +
 								"new members will be kicked until raid mode is disabled",
 							Color: utils.RED,
-							//Timestamp: "<t:" + utils.GetTimestamp() + ">",
+							// Timestamp: "<t:" + utils.GetTimestamp() + ">",
 						},
 					},
 				},
@@ -34,7 +35,7 @@ func RaidModeCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate
 							Title:       "Raid Mode",
 							Description: "Raid mode has been disabled",
 							Color:       utils.GREEN,
-							//Timestamp:   "<t:" + utils.GetTimestamp() + ">",
+							// Timestamp:   "<t:" + utils.GetTimestamp() + ">",
 						},
 					},
 				},
