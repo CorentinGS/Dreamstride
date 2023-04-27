@@ -1,8 +1,9 @@
 package commands
 
 import (
-	"Dreamstride/utils"
 	"fmt"
+
+	"Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -10,6 +11,7 @@ func getWarn(s *discordgo.Session, i *discordgo.InteractionCreate) int {
 	user = i.ApplicationCommandData().Options[0].UserValue(s)
 	return warnedUserMap[user.ID]
 }
+
 func WarnGetCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		number := getWarn(s, i)

@@ -1,8 +1,9 @@
 package commands
 
 import (
-	"Dreamstride/utils"
 	"fmt"
+
+	"Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
 	"github.com/patrickmn/go-cache"
 )
@@ -12,6 +13,7 @@ func resetWarn(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	warnedUserMap[user.ID] = 0
 	warnedUserCache.Set("warnedUserMap", warnedUserMap, cache.NoExpiration)
 }
+
 func WarnResetCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		resetWarn(s, i)

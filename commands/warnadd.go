@@ -1,8 +1,9 @@
 package commands
 
 import (
-	"Dreamstride/utils"
 	"fmt"
+
+	"Dreamstride/utils"
 	"github.com/bwmarrin/discordgo"
 	"github.com/patrickmn/go-cache"
 )
@@ -19,6 +20,7 @@ func SetWarnedUserMap(m map[string]int) {
 	warnedUserCache = cache.New(cache.NoExpiration, cache.NoExpiration)
 	warnedUserCache.Set("warnedUserMap", warnedUserMap, cache.NoExpiration)
 }
+
 func addWarn(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	user = i.ApplicationCommandData().Options[0].UserValue(s)
 	if len(i.ApplicationCommandData().Options) > 1 {
@@ -27,6 +29,7 @@ func addWarn(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	warnedUserMap[user.ID]++
 	warnedUserCache.Set("warnedUserMap", warnedUserMap, cache.NoExpiration)
 }
+
 func WarnCommand() func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		addWarn(s, i)

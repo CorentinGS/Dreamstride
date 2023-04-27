@@ -1,8 +1,9 @@
 package commands
 
 import (
-	"github.com/bwmarrin/discordgo"
 	"strings"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 func getName(channel *discordgo.Channel) string {
